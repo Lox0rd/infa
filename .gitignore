@@ -25,3 +25,8 @@ Thumbs.db
 
 # Логи компиляции
 *.log
+
+# Исполняемые файлы
+word_sorter
+razn_sp
+rek_ch
