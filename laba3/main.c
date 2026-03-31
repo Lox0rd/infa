@@ -59,7 +59,7 @@ long long Nok_range(int a, int b) {
 
 
 //Генерации перестановок
-void genetatePer(int digits[], int start, int end, long long *result) {
+void generatePer(int digits[], int start, int end, long long *result) {
     if (start == end) {
         //Преобразуем массив цифр в число
         long long num = 0;
@@ -80,7 +80,7 @@ void genetatePer(int digits[], int start, int end, long long *result) {
             digits[i] = temp;
             
             //Рекурсивный вызов
-            genetatePer(digits, start + 1, end, result);
+            generatePer(digits, start + 1, end, result);
             
             //Возвращаем цифры на место
             temp = digits[start];
@@ -96,7 +96,7 @@ int main() {
     
     printf("Поиск числа из цифр 0-9, делящегося на все числа от 2 до 18...\n");
     printf("Найденый НОК: %lld\n", Nok_range(2, 18));
-    genetatePer(digits, 0, ND - 1, &result);
+    generatePer(digits, 0, ND - 1, &result);
     
     if (result != -1) {
         printf("Найдено число: %lld\n", result);
