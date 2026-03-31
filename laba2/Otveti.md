@@ -216,7 +216,6 @@ list *F11(list *ph, int v)
     q->prev = p->prev;
     p->prev->next = q;
     p->prev = q;
-    // © Романов Е.Л. Беседы о программировании 14.
     if (ph->val > v) ph = q;
     return ph;
 }
