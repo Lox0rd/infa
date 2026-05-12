@@ -6,11 +6,26 @@ const double PI = 3.1415926;
 class PolarVector {
 private:
     double length;
-    double angle;
+    double angle; // хранится в радианах
 
     void normalizeAngle() {
         while (angle >= 2 * PI) angle -= 2 * PI;
         while (angle < 0) angle += 2 * PI;
+    }
+
+    void setFromLengthAndAngleDegrees(double len, double angDeg) {
+        if (len < 0) {
+            length = -len;
+            angle = (angDeg - 180.0) * PI / 180.0;
+        } else {
+            length = len;
+            angle = angDeg * PI / 180.0;
+        }
+        normalizeAngle();
+    }
+
+    static double degreesToRadians(double degrees) {
+        return degrees * PI / 180.0;
     }
 
 public:
@@ -34,14 +49,7 @@ public:
 PolarVector::PolarVector() : length(0), angle(0) {}
 
 PolarVector::PolarVector(double len, double ang) {
-    if (len < 0) {
-        length = -len;
-        angle = (ang - 180.0) * PI / 180.0;
-    } else {
-        length = len;
-        angle = ang * PI / 180.0;
-    }
-    normalizeAngle();
+    setFromLengthAndAngleDegrees(len, ang);
 }
 
 void PolarVector::input() {
@@ -53,14 +61,7 @@ void PolarVector::input() {
     double angDeg;
     std::cin >> angDeg;
 
-    if (len < 0) {
-        length = -len;
-        angle = (angDeg - 180.0) * PI / 180.0;
-    } else {
-        length = len;
-        angle = angDeg * PI / 180.0;
-    }
-    normalizeAngle();
+    setFromLengthAndAngleDegrees(len, angDeg);
 }
 
 void PolarVector::output() const {
@@ -71,15 +72,7 @@ void PolarVector::output() const {
 void PolarVector::read(std::istream& in) {
     double len, angDeg;
     in >> len >> angDeg;
-
-    if (len < 0) {
-        length = -len;
-        angle = (angDeg - 180.0) * PI / 180.0;
-    } else {
-        length = len;
-        angle = angDeg * PI / 180.0;
-    }
-    normalizeAngle();
+    setFromLengthAndAngleDegrees(len, angDeg);
 }
 
 void PolarVector::write(std::ostream& out) const {
@@ -98,7 +91,7 @@ void PolarVector::setLength(double len) {
 }
 
 void PolarVector::setAngleDegrees(double angDeg) {
-    angle = angDeg * PI / 180.0;
+    angle = degreesToRadians(angDeg);
     normalizeAngle();
 }
 
@@ -124,15 +117,9 @@ int main() {
     std::cout << "После изменений v1: ";
     v1.output();
 
-    std::cout << "\nВведите новый вектор (длина угол в градусах): ";
+    std::cout << "\nВведите новый вектор (длина, угол в градусах): ";
     v2.read(std::cin);
     std::cout << "Введённый вектор: ";
     v2.write(std::cout);
     return 0;
 }
-
-
-//добавить диструктор(по умолчанию)
-//методоы ввода вывода
-//методы, принимающие ссылку на std:cin и читает из этого потока 2 значения и устанавливает значения длинны и угла(логика установки значений имеющаяся)
-//метод берёт ссылку на std:cout и выводит туда длинну и угол
